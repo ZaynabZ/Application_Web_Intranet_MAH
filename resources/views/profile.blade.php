@@ -46,7 +46,7 @@
                 <th>Undefined</th>
               </tr>
               <tr>
-                <th>Profile</th>
+                <th>Solde</th>
                   <th>{{ $user->solde }}</th>
               </tr>
             </table>
