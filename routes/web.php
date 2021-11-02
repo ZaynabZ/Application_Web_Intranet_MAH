@@ -60,22 +60,7 @@ Route::group(['middleware' => ['auth', 'admin']],
                 Route::post('/file-upload','FileUploadController@fileUploadPost')->name('file.upload.post');
                 Route::delete('/delete_file/{filename}','FileUploadController@deleteFile');
                 
-                // returns the candidatures view
-                Route::get('cv_upload', [FileUploadController::class, 'cvUpload'])->name('CV_upload');
-
-                // returns Json response 
-                Route::get('cvs_display', [FileUploadController::class, 'displayCvs'])->name('cv_display');
                 
-                // telecharger un cv dans le serveur
-                Route::post('cv_upload', [FileUploadController::class, 'cvUploadPost'])->name('CV_upload_post');
-
-                Route::get('/cv_pdf/{cv_emplacement}',function($cv_emplacement) {
-                  return view('admin.cv_pdf_file')->with('cv_emplacement',$cv_emplacement);
-                });
-
-                Route::get('/cv_img/{cv_emplacement}',function($cv_emplacement) {
-                  return view('admin.cv_img_file',compact('cv_emplacement'));
-                });
 
                 Route::delete('/delete_cv/{file_name}','FileUploadController@deleteCV');
                 
@@ -83,6 +68,22 @@ Route::group(['middleware' => ['auth', 'admin']],
                 
 });
 
+// returns the candidatures view
+Route::get('cv_upload', [FileUploadController::class, 'cvUpload'])->name('CV_upload');
+
+// returns Json response 
+Route::get('cvs_display', [FileUploadController::class, 'displayCvs'])->name('cv_display');
+                
+// telecharger un cv dans le serveur
+Route::post('cv_upload', [FileUploadController::class, 'cvUploadPost'])->name('CV_upload_post');
+
+Route::get('/cv_pdf/{cv_emplacement}',function($cv_emplacement) {
+    return view('admin.cv_pdf_file')->with('cv_emplacement',$cv_emplacement);
+});
+
+Route::get('/cv_img/{cv_emplacement}',function($cv_emplacement) {
+    return view('admin.cv_img_file',compact('cv_emplacement'));
+});
 
 Auth::routes(['register' => false]);
 
