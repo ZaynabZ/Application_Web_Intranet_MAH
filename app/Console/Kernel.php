@@ -25,11 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('solde:increment')->everyTwoMinutes();
-        //->monthly()
-             //->when(function () {
-            //return \Carbon\Carbon::now()->endOfMonth()->isToday();
-        //});
+        $schedule->command('solde:increment')->monthly()
+            ->when(function () {
+                return \Carbon\Carbon::now()->endOfMonth()->isToday();   
+        });
     }
 
     /**
