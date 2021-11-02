@@ -4,7 +4,7 @@
 
 <div class="row">
 <div class="col-lg-10 grid-margin stretch-card">
-              <div class="card">
+              <div class="card" style="width:100%">
                 <div class="card-body">
                   <h4 class="card-title">Liste des conges</h4>
                  @if (count($leaves) > 0)
