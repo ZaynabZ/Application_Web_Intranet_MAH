@@ -14,29 +14,38 @@ class FileUploadController extends Controller
 
     public function fileUploadPost(Request $request) {
         
-        $request->validate([
+        if(!Auth::user()->isUser()){
+            
+             $request->validate([
             'file' => 'required|mimes:pdf,png,jpg,jpeg|max:20480',
-        ]);
+            ]);
 
-        $file_name = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
-        $type = $request->file->extension();
+            $file_name = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+            $type = $request->file->extension();
 
 
-        $filename = strtoupper(trim( $file_name)).'-'.date('Y-m-d').'.'.$request->file->extension();
-        $request->file->move(public_path('uploads'),$filename);
+            $filename = strtoupper(trim( $file_name)).'-'.date('Y-m-d').'.'.$request->file->extension();
+            $request->file->move(public_path('uploads'),$filename);
 
-        // notifications
-        $users = User::all();
-        foreach ($users  as $user){
-            $user->notify(new NewDocumentPosted($filename,$type,auth()->user()));
+            // notifications
+            $users = User::all();
+            foreach ($users  as $user){
+                $user->notify(new NewDocumentPosted($filename,$type,auth()->user()));
+            }
+
+            return back()
+                    ->with('success','You have successfully upload file.')
+                    ->with('file',$filename);
         }
-
-        return back()
-                ->with('success','You have successfully upload file.')
-                ->with('file',$filename);
+        else{
+            return redirect('home');
+        }
+        
+       
     }
 
     public function show_files() {
+        
             $filenames = HelperController::parse();
             return response()->json([
                 'filenames'  => $filenames,
@@ -47,7 +56,13 @@ class FileUploadController extends Controller
     }
 
     public function showfiles() {
-        return view('files');
+        if(!Auth::user()->isUser()){
+            
+            return view('files');
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     public function deleteFile(Request $request)
@@ -65,8 +80,12 @@ class FileUploadController extends Controller
     } 
 
     public function cvUpload(){
-
-        return view('admin.candidatures');
+        if(!Auth::user()->isUser()){
+            return view('admin.candidatures');
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     public function cvUploadPost(Request $request){
