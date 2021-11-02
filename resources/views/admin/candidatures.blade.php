@@ -55,12 +55,16 @@
                 <div class="list-group" >
                     <div v-if ="item.includes('.pdf')" v-for="item in resultQuery" :key="item"  class="list-group-item" >
                         <a v-bind:href="'/cv_pdf/'+item" >{% item %}</a>
-                        <button class="btn btn-danger  float-right ml-2 active" @click="deleteFile(item, $event)"> Delete </button>
+                        @if(Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
+                            <button class="btn btn-danger  float-right ml-2 active" @click="deleteFile(item, $event)"> Delete </button>
+                        @endif
                     </div>
 
                     <div v-if ="!item.includes('.pdf')" v-for="item in resultQuery" :key="item"  class="list-group-item" >
                         <a v-bind:href="'/cv_img/'+item" >{% item %}</a>
-                        <button class="btn btn-danger  float-right ml-2 active" @click="deleteFile(item, $event)" > Delete </button>
+                        @if(Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
+                            <button class="btn btn-danger  float-right ml-2 active" @click="deleteFile(item, $event)" > Delete </button>
+                        @endif
                     </div>
                 </div>
             </div>
