@@ -45,6 +45,10 @@
                 <th>Service</th>
                 <th>Undefined</th>
               </tr>
+              <tr>
+                <th>Profile</th>
+                  <th>{{ $user->solde }}</th>
+              </tr>
             </table>
           </div>
       </div>
